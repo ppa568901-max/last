@@ -10,18 +10,13 @@
 </head>
 <body>
 
-<!-- 크로스가 하늘에서 바닥까지 눈처럼 떨어지는 전체 배경 레이어.
-     position: fixed 로 뷰포트 전체를 덮고, pointer-events:none 이라 클릭 차단 안 함.
-     각 크로스마다 left 위치·크기·속도·딜레이가 달라서 자연스러운 눈발 효과. -->
+<!-- 크롬하츠 크로스 이미지가 하늘에서 바닥까지 눈처럼 떨어지는 배경 레이어.
+     개수를 10개로 줄여 과하지 않게 — 적당히 드문드문 떨어지는 느낌. -->
 <div class="snowfall" aria-hidden="true">
-  <!-- 20개의 크로스 플레이크. 각자 :nth-child 로 CSS 에서 위치/속도 개별 지정 -->
   <span class="flake"></span><span class="flake"></span><span class="flake"></span>
   <span class="flake"></span><span class="flake"></span><span class="flake"></span>
   <span class="flake"></span><span class="flake"></span><span class="flake"></span>
-  <span class="flake"></span><span class="flake"></span><span class="flake"></span>
-  <span class="flake"></span><span class="flake"></span><span class="flake"></span>
-  <span class="flake"></span><span class="flake"></span><span class="flake"></span>
-  <span class="flake"></span><span class="flake"></span>
+  <span class="flake"></span>
 </div>
 
 <header class="mobile-topbar">
