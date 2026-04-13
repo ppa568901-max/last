@@ -513,8 +513,11 @@ body { padding-left: var(--sidebar-w); }
   .section-title { font-size: 20px; margin-bottom: 28px; }
 }
 
-/* 아주 작은 폰트 기기: 가로 네비에서 Story 같은 항목 숨김 */
+/* 아주 작은 폰 화면: 공간 절약 */
 @media (max-width: 520px) {
   .nav > a { font-size: 11px; }
-  .lang-switch { display: none; }   /* 극소 화면은 언어 토글 숨김 */
+  /* 언어 토글: 텍스트(KO/EN/JA) 숨기고 국기만 남겨 버튼 3개가 콤팩트하게 표시 */
+  .lang-switch { gap: 6px; }
+  .lang-switch button { font-size: 0; padding: 2px; }  /* 버튼 안의 'KO' 같은 텍스트 시각적 숨김 */
+  .lang-switch button .flag { font-size: 18px; }        /* 국기만 다시 크게 */
 }
