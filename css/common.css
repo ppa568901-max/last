@@ -175,15 +175,18 @@ body { padding-left: var(--sidebar-w); }
   text-shadow: 0 0 8px rgba(255,255,255,0.5);
 }
 
-/* 하단 도구 영역 (언어 + 장바구니) */
+/* 하단 도구 영역 (장바구니 + 언어).
+   order 속성으로 시각적 순서만 바꿈 — 카트 이미지가 위, 언어 토글이 아래. */
 .sidebar-tools {
   display: flex;
   flex-direction: column;
   gap: 14px;
   padding-top: 14px;
   border-top: 1px solid var(--line);
-  align-items: center;        /* 장바구니 이미지 중앙 정렬 */
+  align-items: center;
 }
+.sidebar-tools .cart-link   { order: 1; }
+.sidebar-tools .lang-switch { order: 2; }
 
 /* 푸터용 언어 토글은 PC 에서는 숨김 (사이드바 토글만 노출) */
 .lang-switch--footer { display: none; }
