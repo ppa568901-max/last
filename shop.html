@@ -10,6 +10,20 @@
 </head>
 <body>
 
+<!-- 크로스가 하늘에서 바닥까지 눈처럼 떨어지는 전체 배경 레이어.
+     position: fixed 로 뷰포트 전체를 덮고, pointer-events:none 이라 클릭 차단 안 함.
+     각 크로스마다 left 위치·크기·속도·딜레이가 달라서 자연스러운 눈발 효과. -->
+<div class="snowfall" aria-hidden="true">
+  <!-- 20개의 크로스 플레이크. 각자 :nth-child 로 CSS 에서 위치/속도 개별 지정 -->
+  <span class="flake"></span><span class="flake"></span><span class="flake"></span>
+  <span class="flake"></span><span class="flake"></span><span class="flake"></span>
+  <span class="flake"></span><span class="flake"></span><span class="flake"></span>
+  <span class="flake"></span><span class="flake"></span><span class="flake"></span>
+  <span class="flake"></span><span class="flake"></span><span class="flake"></span>
+  <span class="flake"></span><span class="flake"></span><span class="flake"></span>
+  <span class="flake"></span><span class="flake"></span>
+</div>
+
 <header class="mobile-topbar">
   <button class="menu-toggle" aria-label="menu"><span></span><span></span><span></span></button>
   <a href="index.html" class="mobile-logo"><img src="assets/logo.png" alt="Chrome Hearts" /></a>
@@ -55,15 +69,6 @@
 
 <main class="container">
   <!-- 상단 타이틀 -->
-  <!-- 상단 배너: 같은 이미지를 가로로 4슬롯 배치하고, 각 슬롯 안에서
-       이미지가 위→아래로 끝없이 흐르는 '비 내리듯' 연속 애니메이션.
-       각 슬롯마다 animation-delay 를 다르게 줘서 서로 엇갈리게 떨어짐. -->
-  <div class="shop-banner" aria-label="Shop">
-    <div class="shop-banner__slot"><img src="assets/shop-banner.png" alt="" /></div>
-    <div class="shop-banner__slot"><img src="assets/shop-banner.png" alt="" /></div>
-    <div class="shop-banner__slot"><img src="assets/shop-banner.png" alt="" /></div>
-    <div class="shop-banner__slot"><img src="assets/shop-banner.png" alt="" /></div>
-  </div>
 
   <!-- 필터 + 정렬 바 -->
   <div class="shop-head">

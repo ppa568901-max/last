@@ -3,60 +3,65 @@
    - 카테고리 필터바 + 정렬 드롭다운 + 상품 그리드
    ========================================================= */
 
-/* 상단 Shop 배너: 기존 .section-title 과 동일한 상/하 여백을 유지해
-   이 배너를 넣어도 아래 상품 그리드 위치가 변하지 않도록 했다.
-   - .section-title: margin-top 40 + line-height + margin-bottom 60 ≒ 150px 내외
-   - 여기서는 height 80 + margin 40/60 = 180px 로 거의 동일한 세로 공간 차지
-   - background-size: cover 로 잘리더라도 가운데 기준으로 잘라 브랜드 엠블럼이 보이게 */
-/* 배너: 가로 4슬롯. 각 슬롯 안에서 이미지가 위→아래로 계속 떨어지는 루프.
-   - 컨테이너: 고정 높이 80px + 상/하 여백 유지해 레이아웃 밀림 없음
-   - overflow:hidden 으로 슬롯 밖으로 나간 이미지는 잘려 자연스럽게 사라지고 다시 위에서 등장
-   - animation-delay 를 슬롯마다 다르게 줘 서로 엇갈리는 '비 오는' 효과 */
-.shop-banner {
-  height: 80px;
-  margin-top: 40px;
-  margin-bottom: 60px;
-  background: #000;
-  display: flex;
+/* =========================================================
+   크로스 눈발 배경 (shop 페이지 전용)
+   - position: fixed 로 뷰포트 전체를 덮고 콘텐츠 뒤에 배치
+   - pointer-events: none 으로 사용자 클릭을 방해하지 않음
+   - 각 flake 는 CSS mask 로 십자가 SVG 모양을 만들어 크기·위치·속도를 개별 지정
+   ========================================================= */
+.snowfall {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
   overflow: hidden;
+  z-index: 0;                 /* 본문(1 이상) 뒤, body 배경(검정) 위 */
 }
-.shop-banner__slot {
-  flex: 1;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  justify-content: center;
-}
-.shop-banner__slot img {
-  height: 100%;
-  width: auto;
-  display: block;
-  animation-name: bannerRain;
-  animation-iteration-count: infinite;
-  /* timing-function 도 슬롯마다 달리 해서 속도감이 어긋나도록 */
-}
-/* 각 슬롯에 서로 다른 duration + 불규칙 delay + 다른 timing-function 을 주면
-   사이클이 절대 맞지 않아서 '파도' 처럼 보이지 않고 들쭉날쭉하게 떨어진다. */
-.shop-banner__slot:nth-child(1) img {
-  animation-duration: 6.3s;
-  animation-delay: -0.4s;
-  animation-timing-function: ease-in;
-}
-.shop-banner__slot:nth-child(2) img {
-  animation-duration: 8.7s;
-  animation-delay: -4.1s;
+
+/* 본문 컨테이너는 배경 레이어 위에 올라오도록 z-index 설정 */
+main.container, .site-footer { position: relative; z-index: 1; }
+
+/* 개별 눈송이(크로스).
+   - inline SVG 를 url data 로 mask 에 적용 → 배경색(fff)으로 십자가 실루엣 생성
+   - 기본 top: -10% 에서 시작해 translateY 로 화면 아래까지 떨어짐 */
+.snowfall .flake {
+  position: absolute;
+  top: -10%;
+  width: 36px;
+  height: 44px;
+  background: rgba(255,255,255,0.45);
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 80'><path fill='%23fff' d='M25 4 h10 v22 h18 v10 h-18 v40 h-10 v-40 h-18 v-10 h18 z'/></svg>") no-repeat center / contain;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 80'><path fill='%23fff' d='M25 4 h10 v22 h18 v10 h-18 v40 h-10 v-40 h-18 v-10 h18 z'/></svg>") no-repeat center / contain;
+  animation-name: fallSnow;
   animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
-.shop-banner__slot:nth-child(3) img {
-  animation-duration: 5.4s;
-  animation-delay: -2.2s;
-  animation-timing-function: cubic-bezier(0.35, 0.1, 0.65, 1);
-}
-.shop-banner__slot:nth-child(4) img {
-  animation-duration: 7.8s;
-  animation-delay: -6.3s;
-  animation-timing-function: ease-in;
+
+/* 20개의 flake 에 서로 다른 위치/크기/속도/딜레이 부여.
+   left/duration/delay 값이 불규칙해서 "눈 내리듯" 자연스럽게 보인다. */
+.snowfall .flake:nth-child(1)  { left:  4%; width: 28px; height: 36px; animation-duration: 11s; animation-delay:   -1s; opacity: .55; }
+.snowfall .flake:nth-child(2)  { left: 11%; width: 46px; height: 56px; animation-duration: 15s; animation-delay:   -6s; opacity: .4;  }
+.snowfall .flake:nth-child(3)  { left: 19%; width: 22px; height: 28px; animation-duration: 9s;  animation-delay:   -3s; opacity: .65; }
+.snowfall .flake:nth-child(4)  { left: 27%; width: 34px; height: 42px; animation-duration: 13s; animation-delay:   -9s; opacity: .5;  }
+.snowfall .flake:nth-child(5)  { left: 34%; width: 52px; height: 64px; animation-duration: 17s; animation-delay:  -12s; opacity: .35; }
+.snowfall .flake:nth-child(6)  { left: 41%; width: 30px; height: 38px; animation-duration: 10s; animation-delay:   -2s; opacity: .6;  }
+.snowfall .flake:nth-child(7)  { left: 48%; width: 38px; height: 48px; animation-duration: 14s; animation-delay:   -7s; opacity: .45; }
+.snowfall .flake:nth-child(8)  { left: 55%; width: 24px; height: 30px; animation-duration: 8.5s; animation-delay:  -4s; opacity: .7;  }
+.snowfall .flake:nth-child(9)  { left: 62%; width: 44px; height: 54px; animation-duration: 16s; animation-delay:  -10s; opacity: .4;  }
+.snowfall .flake:nth-child(10) { left: 69%; width: 32px; height: 40px; animation-duration: 12s; animation-delay:   -5s; opacity: .55; }
+.snowfall .flake:nth-child(11) { left: 76%; width: 40px; height: 50px; animation-duration: 14.5s; animation-delay: -8s; opacity: .45; }
+.snowfall .flake:nth-child(12) { left: 83%; width: 26px; height: 32px; animation-duration: 9.5s; animation-delay: -1.5s; opacity: .65; }
+.snowfall .flake:nth-child(13) { left: 90%; width: 36px; height: 46px; animation-duration: 12.5s; animation-delay: -11s; opacity: .5; }
+.snowfall .flake:nth-child(14) { left: 95%; width: 22px; height: 28px; animation-duration: 8s;  animation-delay:   -3s; opacity: .7;  }
+.snowfall .flake:nth-child(15) { left:  8%; width: 34px; height: 42px; animation-duration: 13.5s; animation-delay: -7.5s; opacity: .4; }
+.snowfall .flake:nth-child(16) { left: 23%; width: 28px; height: 34px; animation-duration: 10.5s; animation-delay: -4.5s; opacity: .55; }
+.snowfall .flake:nth-child(17) { left: 44%; width: 50px; height: 62px; animation-duration: 18s; animation-delay: -14s; opacity: .3;  }
+.snowfall .flake:nth-child(18) { left: 58%; width: 30px; height: 38px; animation-duration: 11.5s; animation-delay:  -6s; opacity: .55; }
+.snowfall .flake:nth-child(19) { left: 73%; width: 42px; height: 52px; animation-duration: 15.5s; animation-delay: -9.5s; opacity: .4; }
+.snowfall .flake:nth-child(20) { left: 88%; width: 26px; height: 32px; animation-duration: 9s;  animation-delay:  -2.5s; opacity: .65; }
+
+@keyframes fallSnow {
+  0%   { transform: translateY(-20vh) rotate(0deg); }
+  100% { transform: translateY(115vh) rotate(20deg); }
 }
 
 /* 위쪽 화면 밖(−130%)에서 시작해 아래쪽 화면 밖(+130%)으로 사라졌다가 다시 루프.
