@@ -101,14 +101,16 @@ body { padding-left: var(--sidebar-w); }
   filter: brightness(1.25) contrast(1.2);
 }
 
-/* ---------- PC 전용 로고 강화 (900px 초과) ----------
-   - 사이드바 창 크기는 그대로 두되, 로고 이미지를 패딩 영역까지 살짝 넘겨 확대
-   - 멀티 drop-shadow 로 글자 획이 두꺼워 보이게 + 흰빛 테두리로 선명도 업
+/* ---------- PC 전용 사이드바 강화 (900px 초과) ----------
+   - 로고: 사이드바 창 크기는 그대로 두되 패딩을 살짝 넘겨 확대 + 선명도 강화
+   - 언어 토글(sidebar 내부): 제거
+   - 카트 크로스 이미지: 크게 + 위로 이동
    - 모바일(900px 이하) 에는 영향 없음 */
 @media (min-width: 901px) {
+  /* 로고 확대 + 두껍고 선명하게 */
   .logo {
     max-width: none;
-    width: calc(100% + 30px);  /* 좌우 패딩을 넘어 확대 */
+    width: calc(100% + 30px);
     margin: 0 -15px;
   }
   .logo img {
@@ -119,6 +121,22 @@ body { padding-left: var(--sidebar-w); }
       drop-shadow(0 0 0.4px #fff)
       drop-shadow(0 0 0.8px rgba(255,255,255,0.7));
     image-rendering: -webkit-optimize-contrast;
+  }
+
+  /* 사이드바 내부 언어 토글 제거 */
+  .sidebar .lang-switch { display: none; }
+
+  /* 네비가 남은 공간을 전부 차지하지 않도록 → 하단 도구가 위로 자연스럽게 올라옴 */
+  .sidebar .nav { flex: 0 0 auto; }
+
+  /* 카트 크로스 이미지 확대 (기존 120px → 180px) */
+  .sidebar-tools .cart-link {
+    width: 180px;
+    filter: brightness(1.25);
+  }
+  .sidebar-tools {
+    padding-top: 24px;
+    gap: 16px;
   }
 }
 
