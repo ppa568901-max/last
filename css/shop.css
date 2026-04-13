@@ -20,44 +20,44 @@
 /* 본문 컨테이너는 배경 레이어 위에 올라오도록 z-index 설정 */
 main.container, .site-footer { position: relative; z-index: 1; }
 
-/* 개별 눈송이(크로스).
-   - inline SVG 를 url data 로 mask 에 적용 → 배경색(fff)으로 십자가 실루엣 생성
-   - 기본 top: -10% 에서 시작해 translateY 로 화면 아래까지 떨어짐 */
+/* 크로스 이미지 파일이 사이트에 이미 있어서(assets/products/p18.jpg 등 불규칙)
+   더 확실하게 '크롬하츠 느낌' 을 내려면 SVG 마스크로 그린 장식 크로스를 사용.
+   아래 SVG 는 크로스 파테(cross pattée) + 플뢰르 모티프 조합 — 4개 팔이 끝으로 갈수록
+   넓어지고, 안쪽 경계가 오목한 곡선이며, 중앙엔 작은 원형 장식이 있는 형태. */
 .snowfall .flake {
   position: absolute;
-  top: -10%;
-  width: 36px;
+  top: -12%;
+  width: 44px;
   height: 44px;
-  background: rgba(255,255,255,0.45);
-  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 80'><path fill='%23fff' d='M25 4 h10 v22 h18 v10 h-18 v40 h-10 v-40 h-18 v-10 h18 z'/></svg>") no-repeat center / contain;
-          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 80'><path fill='%23fff' d='M25 4 h10 v22 h18 v10 h-18 v40 h-10 v-40 h-18 v-10 h18 z'/></svg>") no-repeat center / contain;
+  background: rgba(255,255,255,0.5);
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><path fill='%23fff' fill-rule='evenodd' d='M60 6 L52 18 L52 36 Q52 46 42 46 L24 46 L12 60 L24 74 L42 74 Q52 74 52 84 L52 102 L60 114 L68 102 L68 84 Q68 74 78 74 L96 74 L108 60 L96 46 L78 46 Q68 46 68 36 L68 18 Z M60 52 a8 8 0 1 1 0 16 a8 8 0 1 1 0 -16 Z'/></svg>") no-repeat center / contain;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><path fill='%23fff' fill-rule='evenodd' d='M60 6 L52 18 L52 36 Q52 46 42 46 L24 46 L12 60 L24 74 L42 74 Q52 74 52 84 L52 102 L60 114 L68 102 L68 84 Q68 74 78 74 L96 74 L108 60 L96 46 L78 46 Q68 46 68 36 L68 18 Z M60 52 a8 8 0 1 1 0 16 a8 8 0 1 1 0 -16 Z'/></svg>") no-repeat center / contain;
   animation-name: fallSnow;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
 
-/* 20개의 flake 에 서로 다른 위치/크기/속도/딜레이 부여.
-   left/duration/delay 값이 불규칙해서 "눈 내리듯" 자연스럽게 보인다. */
-.snowfall .flake:nth-child(1)  { left:  4%; width: 28px; height: 36px; animation-duration: 11s; animation-delay:   -1s; opacity: .55; }
-.snowfall .flake:nth-child(2)  { left: 11%; width: 46px; height: 56px; animation-duration: 15s; animation-delay:   -6s; opacity: .4;  }
-.snowfall .flake:nth-child(3)  { left: 19%; width: 22px; height: 28px; animation-duration: 9s;  animation-delay:   -3s; opacity: .65; }
-.snowfall .flake:nth-child(4)  { left: 27%; width: 34px; height: 42px; animation-duration: 13s; animation-delay:   -9s; opacity: .5;  }
-.snowfall .flake:nth-child(5)  { left: 34%; width: 52px; height: 64px; animation-duration: 17s; animation-delay:  -12s; opacity: .35; }
-.snowfall .flake:nth-child(6)  { left: 41%; width: 30px; height: 38px; animation-duration: 10s; animation-delay:   -2s; opacity: .6;  }
-.snowfall .flake:nth-child(7)  { left: 48%; width: 38px; height: 48px; animation-duration: 14s; animation-delay:   -7s; opacity: .45; }
-.snowfall .flake:nth-child(8)  { left: 55%; width: 24px; height: 30px; animation-duration: 8.5s; animation-delay:  -4s; opacity: .7;  }
-.snowfall .flake:nth-child(9)  { left: 62%; width: 44px; height: 54px; animation-duration: 16s; animation-delay:  -10s; opacity: .4;  }
-.snowfall .flake:nth-child(10) { left: 69%; width: 32px; height: 40px; animation-duration: 12s; animation-delay:   -5s; opacity: .55; }
-.snowfall .flake:nth-child(11) { left: 76%; width: 40px; height: 50px; animation-duration: 14.5s; animation-delay: -8s; opacity: .45; }
-.snowfall .flake:nth-child(12) { left: 83%; width: 26px; height: 32px; animation-duration: 9.5s; animation-delay: -1.5s; opacity: .65; }
-.snowfall .flake:nth-child(13) { left: 90%; width: 36px; height: 46px; animation-duration: 12.5s; animation-delay: -11s; opacity: .5; }
-.snowfall .flake:nth-child(14) { left: 95%; width: 22px; height: 28px; animation-duration: 8s;  animation-delay:   -3s; opacity: .7;  }
-.snowfall .flake:nth-child(15) { left:  8%; width: 34px; height: 42px; animation-duration: 13.5s; animation-delay: -7.5s; opacity: .4; }
-.snowfall .flake:nth-child(16) { left: 23%; width: 28px; height: 34px; animation-duration: 10.5s; animation-delay: -4.5s; opacity: .55; }
-.snowfall .flake:nth-child(17) { left: 44%; width: 50px; height: 62px; animation-duration: 18s; animation-delay: -14s; opacity: .3;  }
-.snowfall .flake:nth-child(18) { left: 58%; width: 30px; height: 38px; animation-duration: 11.5s; animation-delay:  -6s; opacity: .55; }
-.snowfall .flake:nth-child(19) { left: 73%; width: 42px; height: 52px; animation-duration: 15.5s; animation-delay: -9.5s; opacity: .4; }
-.snowfall .flake:nth-child(20) { left: 88%; width: 26px; height: 32px; animation-duration: 9s;  animation-delay:  -2.5s; opacity: .65; }
+/* 20개 플레이크에 서로 다른 left/크기/속도/딜레이/투명도 부여 — 정사각 기준 */
+.snowfall .flake:nth-child(1)  { left:  4%; width: 34px; height: 34px; animation-duration: 11s; animation-delay:   -1s; opacity: .55; }
+.snowfall .flake:nth-child(2)  { left: 11%; width: 56px; height: 56px; animation-duration: 15s; animation-delay:   -6s; opacity: .4;  }
+.snowfall .flake:nth-child(3)  { left: 19%; width: 26px; height: 26px; animation-duration: 9s;  animation-delay:   -3s; opacity: .65; }
+.snowfall .flake:nth-child(4)  { left: 27%; width: 40px; height: 40px; animation-duration: 13s; animation-delay:   -9s; opacity: .5;  }
+.snowfall .flake:nth-child(5)  { left: 34%; width: 62px; height: 62px; animation-duration: 17s; animation-delay:  -12s; opacity: .35; }
+.snowfall .flake:nth-child(6)  { left: 41%; width: 36px; height: 36px; animation-duration: 10s; animation-delay:   -2s; opacity: .6;  }
+.snowfall .flake:nth-child(7)  { left: 48%; width: 46px; height: 46px; animation-duration: 14s; animation-delay:   -7s; opacity: .45; }
+.snowfall .flake:nth-child(8)  { left: 55%; width: 28px; height: 28px; animation-duration: 8.5s; animation-delay:  -4s; opacity: .7;  }
+.snowfall .flake:nth-child(9)  { left: 62%; width: 52px; height: 52px; animation-duration: 16s; animation-delay:  -10s; opacity: .4;  }
+.snowfall .flake:nth-child(10) { left: 69%; width: 38px; height: 38px; animation-duration: 12s; animation-delay:   -5s; opacity: .55; }
+.snowfall .flake:nth-child(11) { left: 76%; width: 48px; height: 48px; animation-duration: 14.5s; animation-delay: -8s; opacity: .45; }
+.snowfall .flake:nth-child(12) { left: 83%; width: 30px; height: 30px; animation-duration: 9.5s; animation-delay: -1.5s; opacity: .65; }
+.snowfall .flake:nth-child(13) { left: 90%; width: 42px; height: 42px; animation-duration: 12.5s; animation-delay: -11s; opacity: .5; }
+.snowfall .flake:nth-child(14) { left: 95%; width: 26px; height: 26px; animation-duration: 8s;  animation-delay:   -3s; opacity: .7;  }
+.snowfall .flake:nth-child(15) { left:  8%; width: 40px; height: 40px; animation-duration: 13.5s; animation-delay: -7.5s; opacity: .4; }
+.snowfall .flake:nth-child(16) { left: 23%; width: 32px; height: 32px; animation-duration: 10.5s; animation-delay: -4.5s; opacity: .55; }
+.snowfall .flake:nth-child(17) { left: 44%; width: 60px; height: 60px; animation-duration: 18s; animation-delay: -14s; opacity: .3;  }
+.snowfall .flake:nth-child(18) { left: 58%; width: 36px; height: 36px; animation-duration: 11.5s; animation-delay:  -6s; opacity: .55; }
+.snowfall .flake:nth-child(19) { left: 73%; width: 50px; height: 50px; animation-duration: 15.5s; animation-delay: -9.5s; opacity: .4; }
+.snowfall .flake:nth-child(20) { left: 88%; width: 30px; height: 30px; animation-duration: 9s;  animation-delay:  -2.5s; opacity: .65; }
 
 @keyframes fallSnow {
   0%   { transform: translateY(-20vh) rotate(0deg); }
