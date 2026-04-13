@@ -114,12 +114,9 @@ body { padding-left: var(--sidebar-w); }
     margin: 0 -15px;
   }
   .logo img {
-    filter:
-      brightness(1.4)
-      contrast(1.45)
-      drop-shadow(0 0 0.4px #fff)
-      drop-shadow(0 0 0.4px #fff)
-      drop-shadow(0 0 0.8px rgba(255,255,255,0.7));
+    /* drop-shadow 는 이미지의 검정 배경 바깥쪽 사각 테두리를 그려버려
+       네모난 보더처럼 보이는 문제가 있어 제거. brightness/contrast 로만 선명도 강화. */
+    filter: brightness(1.4) contrast(1.45);
     image-rendering: -webkit-optimize-contrast;
   }
 
