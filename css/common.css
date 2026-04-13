@@ -166,6 +166,9 @@ body { padding-left: var(--sidebar-w); }
   align-items: center;        /* 장바구니 이미지 중앙 정렬 */
 }
 
+/* 푸터용 언어 토글은 PC 에서는 숨김 (사이드바 토글만 노출) */
+.lang-switch--footer { display: none; }
+
 /* 언어 토글: 국기 + 언어코드. 가로 배치로 컴팩트하게 */
 .lang-switch { display: flex; flex-direction: row; gap: 14px; font-size: 14px; letter-spacing: 0.1em; }
 .lang-switch button {
@@ -504,9 +507,14 @@ body { padding-left: var(--sidebar-w); }
     margin-left: auto;
     align-items: center;
   }
-  .lang-switch { gap: 8px; font-size: 11px; }
-  .lang-switch button { padding: 2px 0; }
-  .lang-switch button .flag { font-size: 14px; }
+  /* 모바일에서는 상단 바의 언어 토글 숨기고 푸터 토글만 사용 */
+  .sidebar .lang-switch { display: none; }
+  .lang-switch--footer {
+    display: flex;
+    flex-direction: row;
+    gap: 14px;
+    margin-right: auto;
+  }
   .cart-link { width: 44px; }
 
   .section { padding: 40px 0; }
@@ -515,9 +523,6 @@ body { padding-left: var(--sidebar-w); }
 
 /* 아주 작은 폰 화면: 공간 절약 */
 @media (max-width: 520px) {
-  .nav > a { font-size: 11px; }
-  /* 언어 토글: 텍스트(KO/EN/JA) 숨기고 국기만 남겨 버튼 3개가 콤팩트하게 표시 */
-  .lang-switch { gap: 6px; }
-  .lang-switch button { font-size: 0; padding: 2px; }  /* 버튼 안의 'KO' 같은 텍스트 시각적 숨김 */
-  .lang-switch button .flag { font-size: 18px; }        /* 국기만 다시 크게 */
+  .nav > a { font-size: 15px; }
+  /* 푸터 언어 토글은 계속 텍스트+국기 유지 (공간 있음) */
 }
