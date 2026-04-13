@@ -268,8 +268,8 @@
   .hero__nav.next { right: 10px; }
   .hero__dots { bottom: 18px; }
 
-  /* 우측 상단 Login / Sign Up 축소 (모바일 탑바 아래에 위치 — 탑바 86px + 여백 10px) */
-  .auth-btns { top: 96px; right: 10px; gap: 6px; }
+  /* 우측 상단 Login / Sign Up: 모바일 탑바(70px) 아래로 위치 */
+  .auth-btns { top: 80px; right: 10px; gap: 6px; }
   .auth-btn { padding: 7px 12px; font-size: 11px; letter-spacing: 0.18em; }
 
   /* 푸터: 4단 → 2단, 하단바 세로로 */

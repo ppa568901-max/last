@@ -27,3 +27,25 @@ function initReveal() {
 }
 
 document.addEventListener('DOMContentLoaded', initReveal);
+
+/**
+ * 모바일 햄버거 메뉴 토글:
+ *  - .menu-toggle 클릭 → body 에 .is-menu-open 클래스 토글
+ *  - 백드롭 클릭 or 드로어 내 네비 링크 클릭 시 자동으로 닫힘
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.querySelector('.menu-toggle');
+  const backdrop = document.querySelector('.sidebar-backdrop');
+  const body = document.body;
+  if (!toggle) return;
+
+  const open  = () => body.classList.add('is-menu-open');
+  const close = () => body.classList.remove('is-menu-open');
+
+  toggle.addEventListener('click', () => {
+    if (body.classList.contains('is-menu-open')) close();
+    else open();
+  });
+  if (backdrop) backdrop.addEventListener('click', close);
+  document.querySelectorAll('.sidebar .nav a').forEach((a) => a.addEventListener('click', close));
+});

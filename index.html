@@ -11,12 +11,23 @@
 </head>
 <body>
 
-<!-- ================================================================
-     공통 헤더 (모든 페이지에서 동일한 마크업 사용)
-     - 로고 / 네비 / 언어 토글(KO·EN·JA) / 장바구니 아이콘+뱃지
-     - data-i18n 속성에 "키.경로" 를 달아두면 i18n.js 가 교체
-================================================================ -->
-<!-- 좌측 세로 사이드바: 로고 / 네비(쇼핑은 서브카테고리까지 펼쳐짐) / 언어·장바구니 -->
+<!-- 모바일 전용 탑바: 햄버거(좌) + 로고(중앙) + 카트(우).
+     PC 에서는 CSS 로 숨김. 햄버거 클릭 시 .sidebar 가 왼쪽에서 슬라이드로 열림. -->
+<header class="mobile-topbar">
+  <button class="menu-toggle" aria-label="menu">
+    <span></span><span></span><span></span>
+  </button>
+  <a href="index.html" class="mobile-logo"><img src="assets/logo.png" alt="Chrome Hearts" /></a>
+  <a href="cart.html" class="mobile-cart" aria-label="cart">
+    <img src="assets/cart-logo.png" alt="cart" />
+    <span class="cart-badge" data-count="0">0</span>
+  </a>
+</header>
+
+<!-- 드로어 배경 (모바일에서 사이드바가 열렸을 때 뒤를 어둡게 덮음; 클릭하면 닫힘) -->
+<div class="sidebar-backdrop"></div>
+
+<!-- 좌측 세로 사이드바: PC 에선 항상 보이고, 모바일에선 햄버거로 토글되는 드로어 -->
 <aside class="sidebar">
   <a href="index.html" class="logo" aria-label="Chrome Hearts">
     <img src="assets/logo.png" alt="Chrome Hearts" />
