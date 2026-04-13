@@ -9,46 +9,67 @@
    - pointer-events: none 으로 사용자 클릭을 방해하지 않음
    - 각 flake 는 CSS mask 로 십자가 SVG 모양을 만들어 크기·위치·속도를 개별 지정
    ========================================================= */
+/* 눈발 레이어: 사이드바(--sidebar-w) 오른쪽부터 뷰포트 끝까지 덮음.
+   PC(240px)·모바일(0px) 모두 자동으로 본문 영역만 채움 → 좌우 시선이 동일.
+   position: fixed 로 스크롤해도 레이어는 제자리, 본문만 위로 흐름. */
 .snowfall {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: var(--sidebar-w);
+  right: 0;
+  bottom: 0;
   pointer-events: none;
   overflow: hidden;
-  z-index: 0;                 /* 본문(1 이상) 뒤, body 배경(검정) 위 */
+  z-index: 0;
 }
 
 /* 본문 컨테이너는 배경 레이어 위에 올라오도록 z-index 설정 */
 main.container, .site-footer { position: relative; z-index: 1; }
 
-/* 눈송이 = 실제 크롬하츠 크로스 이미지(shop-banner.png) 를 그대로 사용.
-   SVG 마스크 재현이 한계 있어 원본 이미지가 가장 정확한 표현이라 교체.
-   원본 비율 430:165 (대략 2.6:1) 를 그대로 유지. */
+/* 눈송이 = 실제 크롬하츠 크로스 이미지(shop-banner.png).
+   PC·모바일 모두 동일하게 적용 (이 블록은 미디어쿼리 밖이라 전 해상도 적용).
+   불규칙성 강화: 각 flake 에 별도 keyframes·timing-function·초기 translateX·회전방향 부여. */
 .snowfall .flake {
   position: absolute;
   top: -15%;
-  width: 110px;
-  height: 42px;              /* 430:165 비율 유지 */
   background: url('../assets/shop-banner.png') center / contain no-repeat;
-  animation-name: fallSnow;
-  animation-timing-function: linear;
   animation-iteration-count: infinite;
+  will-change: transform;
 }
 
-/* 10개 플레이크 — 위치/크기/속도/딜레이/투명도 모두 달리 해서 자연스러운 눈발 */
-.snowfall .flake:nth-child(1)  { left:  5%; width: 120px; height: 46px; animation-duration: 14s; animation-delay:   -1s; opacity: .55; }
-.snowfall .flake:nth-child(2)  { left: 18%; width:  90px; height: 35px; animation-duration: 11s; animation-delay:   -6s; opacity: .45; }
-.snowfall .flake:nth-child(3)  { left: 32%; width: 140px; height: 54px; animation-duration: 17s; animation-delay:  -12s; opacity: .4;  }
-.snowfall .flake:nth-child(4)  { left: 46%; width: 100px; height: 38px; animation-duration: 13s; animation-delay:   -3s; opacity: .6;  }
-.snowfall .flake:nth-child(5)  { left: 60%; width: 110px; height: 42px; animation-duration: 15s; animation-delay:   -8s; opacity: .5;  }
-.snowfall .flake:nth-child(6)  { left: 72%; width:  85px; height: 33px; animation-duration: 10s; animation-delay:   -2s; opacity: .65; }
-.snowfall .flake:nth-child(7)  { left: 83%; width: 130px; height: 50px; animation-duration: 16s; animation-delay:  -10s; opacity: .4;  }
-.snowfall .flake:nth-child(8)  { left: 92%; width:  95px; height: 36px; animation-duration: 12s; animation-delay:   -5s; opacity: .55; }
-.snowfall .flake:nth-child(9)  { left: 25%; width: 105px; height: 40px; animation-duration: 13.5s; animation-delay: -7.5s; opacity: .5; }
-.snowfall .flake:nth-child(10) { left: 53%; width: 125px; height: 48px; animation-duration: 15.5s; animation-delay: -9.5s; opacity: .45; }
+/* 각 flake 마다 서로 다른 left(작은 오프셋까지 소수점), 크기, duration, delay, opacity,
+   그리고 animation-name(낙하 패턴)·timing-function·회전방향을 혼합해서
+   "같은 이미지인데 제각각 떨어지는" 인상이 들도록 조정. */
+/* 각 flake 는 6가지 낙하 패턴(fallA, fallAm, fallB, fallBm, fallC, fallCm) 중 하나를 사용.
+   m 변종은 좌우 반전 — 키프레임 자체에 반전이 포함됨. */
+.snowfall .flake:nth-child(1)  { left:  3%;  width: 120px; height: 46px; animation-name: fallA;  animation-duration: 14s;  animation-delay:  -1.2s; animation-timing-function: linear;    opacity: .55; }
+.snowfall .flake:nth-child(2)  { left: 17.5%; width:  88px; height: 34px; animation-name: fallBm; animation-duration: 11s;  animation-delay:  -6.4s; animation-timing-function: ease-in;   opacity: .45; }
+.snowfall .flake:nth-child(3)  { left: 29%;  width: 145px; height: 56px; animation-name: fallC;  animation-duration: 19s;  animation-delay: -12.8s; animation-timing-function: cubic-bezier(.4,.1,.7,1); opacity: .38; }
+.snowfall .flake:nth-child(4)  { left: 41.5%; width:  96px; height: 37px; animation-name: fallB;  animation-duration: 12.5s; animation-delay: -3.1s; animation-timing-function: linear;    opacity: .6;  }
+.snowfall .flake:nth-child(5)  { left: 56%;  width: 115px; height: 44px; animation-name: fallAm; animation-duration: 16s;  animation-delay:  -8.7s; animation-timing-function: ease-in;   opacity: .5;  }
+.snowfall .flake:nth-child(6)  { left: 68.5%; width:  82px; height: 31px; animation-name: fallC;  animation-duration:  9.5s; animation-delay: -1.7s; animation-timing-function: linear;    opacity: .68; }
+.snowfall .flake:nth-child(7)  { left: 80%;  width: 135px; height: 52px; animation-name: fallB;  animation-duration: 17.5s; animation-delay: -10.4s; animation-timing-function: cubic-bezier(.3,0,.8,1); opacity: .4;  }
+.snowfall .flake:nth-child(8)  { left: 91%;  width:  92px; height: 35px; animation-name: fallAm; animation-duration: 12.2s; animation-delay: -5.3s; animation-timing-function: ease-in;   opacity: .58; }
+.snowfall .flake:nth-child(9)  { left: 22%;  width: 105px; height: 40px; animation-name: fallCm; animation-duration: 13.7s; animation-delay: -7.9s; animation-timing-function: linear;    opacity: .5;  }
+.snowfall .flake:nth-child(10) { left: 48%;  width: 128px; height: 49px; animation-name: fallAm; animation-duration: 15.8s; animation-delay: -9.6s; animation-timing-function: cubic-bezier(.5,.1,.6,1); opacity: .45; }
 
-@keyframes fallSnow {
-  0%   { transform: translateY(-20vh) rotate(0deg); }
-  100% { transform: translateY(115vh) rotate(20deg); }
+/* 3가지 낙하 패턴. 각자 회전 방향·횡이동·각도가 달라서 같은 이미지도 다르게 보임.
+   - fallA: 오른쪽으로 치우치며 시계방향 회전
+   - fallB: 왼쪽으로 치우치며 반시계 방향 회전
+   - fallC: 거의 수직 낙하, 살짝만 회전 */
+@keyframes fallA {
+  0%   { transform: translate(-10px, -20vh) rotate(-8deg); }
+  50%  { transform: translate( 20px,  45vh) rotate(12deg); }
+  100% { transform: translate( 35px, 115vh) rotate(30deg); }
+}
+@keyframes fallB {
+  0%   { transform: translate( 10px, -20vh) scaleX(-1) rotate(6deg); }
+  50%  { transform: translate(-15px,  45vh) scaleX(-1) rotate(-10deg); }
+  100% { transform: translate(-30px, 115vh) scaleX(-1) rotate(-25deg); }
+}
+@keyframes fallC {
+  0%   { transform: translate(0, -20vh) rotate(3deg); }
+  100% { transform: translate(0, 115vh) rotate(-7deg); }
 }
 
 /* 위쪽 화면 밖(−130%)에서 시작해 아래쪽 화면 밖(+130%)으로 사라졌다가 다시 루프.
