@@ -116,8 +116,17 @@
 }
 
 @media (max-width: 900px) {
-  .shop-grid { grid-template-columns: repeat(2, 1fr); }
+  .shop-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .shop-head { padding: 20px 0 14px; margin-bottom: 24px; gap: 12px; }
+  .cat-filter { gap: 16px; }
+  .cat-filter button { font-size: 11px; letter-spacing: 0.18em; }
+
+  /* 배너: 4슬롯은 모바일에서 너무 좁음 → 2슬롯으로, 이미지는 뒤 2장 숨김 */
+  .shop-banner { height: 60px; margin-top: 20px; margin-bottom: 30px; }
+  .shop-banner__slot:nth-child(3),
+  .shop-banner__slot:nth-child(4) { display: none; }
 }
-@media (max-width: 480px) {
+@media (max-width: 520px) {
   .shop-grid { grid-template-columns: 1fr; }
+  .shop-head { flex-direction: column; align-items: flex-start; }
 }

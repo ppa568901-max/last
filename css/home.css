@@ -244,11 +244,45 @@
 .story__body { color: var(--fg-dim); font-size: 18px; line-height: 1.9; margin-bottom: 32px; }
 
 /* ---------- 모바일 ----------
-   5열 → 2열, 4열 → 2열, 스토리는 1열로 접힘 */
+   5열 → 2열, 4열 → 2열, 스토리는 1열로 접힘
+   ⚠ 이 블록은 모바일 전용 — PC(900px 초과) 레이아웃에 영향 없음 */
 @media (max-width: 900px) {
   .cat-grid { grid-template-columns: repeat(2, 1fr); }
   .prod-grid { grid-template-columns: repeat(2, 1fr); }
   .story { grid-template-columns: 1fr; gap: 30px; }
-  .story__title { font-size: 24px; }
-  .hero { min-height: 70vh; }
+  .story__title { font-size: 22px; letter-spacing: 0.15em; }
+  .story__body { font-size: 15px; }
+  .hero { height: auto; min-height: 70vh; }
+
+  /* 히어로 슬라이드 이미지: 고정 620×620 이 폰 가로폭을 넘치던 문제 → 뷰포트 기준으로 축소 */
+  .hero__slide img {
+    width: 85vw;
+    height: 85vw;
+    max-width: 480px;
+    max-height: 60vh;
+  }
+
+  /* 슬라이더 화살표·도트 축소 */
+  .hero__nav { width: 38px; height: 38px; font-size: 18px; }
+  .hero__nav.prev { left: 10px; }
+  .hero__nav.next { right: 10px; }
+  .hero__dots { bottom: 18px; }
+
+  /* 우측 상단 Login / Sign Up 축소 (모바일 탑바 아래에 위치) */
+  .auth-btns { top: 66px; right: 10px; gap: 6px; }
+  .auth-btn { padding: 7px 12px; font-size: 11px; letter-spacing: 0.18em; }
+
+  /* 푸터: 4단 → 2단, 하단바 세로로 */
+  .footer-main { grid-template-columns: 1fr 1fr; gap: 30px; padding: 50px 20px; }
+  .footer-newsletter { padding: 50px 20px; }
+  .footer-newsletter h3 { font-size: 18px; letter-spacing: 0.2em; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; font-size: 11px; }
+  .footer-bottom__payments { flex-wrap: wrap; }
+}
+
+/* 아주 좁은 화면: 1단 그리드 + 일부 요소 숨김 */
+@media (max-width: 520px) {
+  .cat-grid { grid-template-columns: 1fr; }
+  .footer-main { grid-template-columns: 1fr; }
+  .auth-btns { display: none; } /* 너무 좁아서 가림 */
 }

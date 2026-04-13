@@ -455,19 +455,66 @@ body { padding-left: var(--sidebar-w); }
 .reveal.is-visible { opacity: 1; transform: none; }
 
 /* ---------- 모바일 반응형 ----------
-   900px 미만: 사이드바를 상단 바 형태로 접는다 (body 패딩 제거) */
+   900px 이하: 사이드바를 상단 고정 컴팩트 헤더로 재배치.
+   기존 세로 네비를 가로로 접어 화면을 덜 잡아먹게 함.
+   본문은 상단 헤더 높이만큼만 아래로 밀림. */
 @media (max-width: 900px) {
-  body { padding-left: 0; padding-top: 0; }
+  :root { --sidebar-w: 0px; }    /* 좌측 패딩 없앰 */
+  body { padding-left: 0; padding-top: 56px; }
+
+  /* 사이드바 → 상단 고정 바로 변신 */
   .sidebar {
-    position: static;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: auto;
     width: 100%;
-    height: auto;
-    flex-direction: column;
-    gap: 24px;
-    padding: 20px var(--gutter);
+    height: 56px;
+    flex-direction: row;        /* 가로 배치 */
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    overflow: hidden;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
   }
-  .nav { gap: 14px; }
-  .section { padding: 60px 0; }
-  .section-title { font-size: 22px; margin-bottom: 36px; }
-  .logo { font-size: 16px; }
+
+  /* 로고: 작게 축소 */
+  .logo { max-width: 110px; margin: 0; align-self: center; }
+
+  /* 네비: 가로 스크롤 가능한 한 줄 */
+  .nav {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 14px;
+    flex: 1;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav > a,
+  .nav > .nav-group > .nav-group__title { font-size: 12px; padding: 2px 0; letter-spacing: 0.15em; }
+  /* SHOP 서브카테고리는 모바일에서 숨김(공간 부족) → SHOP 링크로 대체 */
+  .nav-group__sub { display: none; }
+
+  /* 하단 도구 영역: 가로로 컴팩트 */
+  .sidebar-tools {
+    flex-direction: row;
+    gap: 10px;
+    padding-top: 0;
+    border-top: 0;
+    margin-left: auto;
+    align-items: center;
+  }
+  .lang-switch { gap: 8px; font-size: 11px; }
+  .lang-switch button { padding: 2px 0; }
+  .lang-switch button .flag { font-size: 14px; }
+  .cart-link { width: 44px; }
+
+  .section { padding: 40px 0; }
+  .section-title { font-size: 20px; margin-bottom: 28px; }
+}
+
+/* 아주 작은 폰트 기기: 가로 네비에서 Story 같은 항목 숨김 */
+@media (max-width: 520px) {
+  .nav > a { font-size: 11px; }
+  .lang-switch { display: none; }   /* 극소 화면은 언어 토글 숨김 */
 }
