@@ -84,7 +84,7 @@ body { padding-left: var(--sidebar-w); }
    - filter drop-shadow 는 '이미지 바깥 직사각형'에 빛을 만들어 버튼처럼 보이게 하므로 제거
    - 원본에 상하 검정 여백 + "CHROME HEARTS" 배너 포함 → object-fit: cover 로 말굽만 잘라 보여줌 */
 /* 로고: 가로형 "CHROME HEARTS" 배너 이미지 (원본 403x107, 비율 ≒ 3.77:1)
-   사이드바 폭에 맞춰 가로 전체를 채우되 비율 유지. 반짝임 효과 없이 기본 스타일. */
+   사이드바 폭에 맞춰 가로 전체를 채우되 비율 유지. */
 .logo {
   display: block;
   width: 100%;
@@ -99,6 +99,27 @@ body { padding-left: var(--sidebar-w); }
   height: auto;
   display: block;
   filter: brightness(1.25) contrast(1.2);
+}
+
+/* ---------- PC 전용 로고 강화 (900px 초과) ----------
+   - 사이드바 창 크기는 그대로 두되, 로고 이미지를 패딩 영역까지 살짝 넘겨 확대
+   - 멀티 drop-shadow 로 글자 획이 두꺼워 보이게 + 흰빛 테두리로 선명도 업
+   - 모바일(900px 이하) 에는 영향 없음 */
+@media (min-width: 901px) {
+  .logo {
+    max-width: none;
+    width: calc(100% + 30px);  /* 좌우 패딩을 넘어 확대 */
+    margin: 0 -15px;
+  }
+  .logo img {
+    filter:
+      brightness(1.4)
+      contrast(1.45)
+      drop-shadow(0 0 0.4px #fff)
+      drop-shadow(0 0 0.4px #fff)
+      drop-shadow(0 0 0.8px rgba(255,255,255,0.7));
+    image-rendering: -webkit-optimize-contrast;
+  }
 }
 
 /* 메인 네비게이션 (세로 스택) — 간격을 줄여 한 화면 안에 들어가도록 */
