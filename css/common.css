@@ -1,0 +1,473 @@
+/* =========================================================
+   common.css — 전체 페이지에서 공통으로 쓰는 스타일
+   - 컬러/폰트 같은 "디자인 토큰"을 변수로 모아둬서
+     나중에 한 곳만 바꾸면 사이트 전체 분위기가 바뀌도록 설계
+   - 헤더/푸터/버튼 등 모든 페이지가 공유하는 UI를 담당
+   ========================================================= */
+
+/* ---------- 폰트 불러오기 (Google Fonts) ----------
+   Cinzel: 크롬하츠 특유의 고딕 세리프 느낌의 영문 로고용
+   Cormorant Garamond: 본문 영문. 고급스러운 세리프
+   Noto Serif KR / JP: 한글·일본어 본문. 위 영문과 무게감이 어울림 */
+/* 블랙레터(고딕) 폰트 추가:
+   - UnifrakturMaguntia / Pirata One: 크롬하츠 로고 같은 중세 고딕 느낌
+   - Cinzel / Cormorant Garamond: 보조 세리프 (네비·본문)
+   - Noto Serif KR/JP: 한·일 본문 폴백 */
+@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Pirata+One&family=Cinzel:wght@500;700&family=Cormorant+Garamond:wght@400;600&family=Noto+Serif+JP:wght@400;700&family=Noto+Serif+KR:wght@400;700&display=swap');
+
+/* ---------- 디자인 토큰 (CSS 변수) ----------
+   :root 는 문서 최상위. 여기 선언한 변수는 어디서나 var(--이름)으로 사용 가능 */
+:root {
+  /* 컬러: 크롬하츠의 어둡고 무게감 있는 럭셔리 톤 */
+  --bg: #000;            /* 기본 배경: 완전한 검정 */
+  --bg-soft: #0c0c0c;    /* 살짝 밝은 검정 (카드/섹션 구분용) */
+  --fg: #f5f2ea;         /* 본문 텍스트: 아이보리 (완전 흰색은 너무 차가움) */
+  --fg-dim: #8a8378;     /* 보조 텍스트: 빛바랜 금속톤 */
+  --accent: #8a7b5c;     /* 포인트 컬러: 앤틱 골드. 버튼·강조선에 사용 */
+  --line: #222;          /* 구분선: 거의 안 보이되 구조만 잡아줌 */
+
+  /* 폰트 스택:
+     --font-blackletter: 브랜드 상징 로고용 (크롬하츠 고딕 느낌)
+     --font-display: 네비·섹션 타이틀 등 강조용 세리프
+     --font-body: 본문 세리프 */
+  --font-blackletter: 'UnifrakturMaguntia', 'Pirata One', 'Cinzel', serif;
+  --font-display: 'Pirata One', 'Cinzel', 'Noto Serif KR', 'Noto Serif JP', serif;
+  --font-body: 'Cormorant Garamond', 'Noto Serif KR', 'Noto Serif JP', serif;
+
+  /* 레이아웃: 콘텐츠 최대 폭과 기본 여백 */
+  --maxw: 1280px;
+  --gutter: 24px;
+}
+
+/* ---------- 리셋 ----------
+   브라우저마다 기본 여백/폰트가 달라서 초기화해두면 디자인이 일관됨 */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 17px;         /* 본문 기준 크기. 세리프 폰트는 살짝 크게 해야 잘 읽힘 */
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased; /* 맥에서 글자 뭉개짐 방지 */
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button { font-family: inherit; cursor: pointer; background: none; border: none; color: inherit; }
+
+/* ---------- 좌측 사이드바 ----------
+   - 페이지 좌측에 고정된 세로 네비게이션
+   - 로고(최상단) / 네비(중앙, 쇼핑은 서브카테고리까지 펼쳐짐) / 언어·장바구니(하단)
+   - 본문은 body 에 padding-left 를 줘서 사이드바에 가리지 않도록 함 */
+:root { --sidebar-w: 240px; }
+
+body { padding-left: var(--sidebar-w); }
+
+.sidebar {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: var(--sidebar-w);
+  padding: 24px 22px;
+  background: #000;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  z-index: 100;
+  overflow: hidden;         /* 스크롤바 금지 — 내용은 항상 한 화면 안에 */
+}
+
+/* 로고: 이미지(말굽+크로스 엠블럼)
+   - 핵심: 클릭/호버 영역이 이미지 크기에만 딱 맞도록 inline-block + 가운데 정렬
+   - 원본 PNG 는 알파 채널이 없고 검정 배경이라 사이드바(검정)와 자연스럽게 이어짐
+   - filter drop-shadow 는 '이미지 바깥 직사각형'에 빛을 만들어 버튼처럼 보이게 하므로 제거
+   - 원본에 상하 검정 여백 + "CHROME HEARTS" 배너 포함 → object-fit: cover 로 말굽만 잘라 보여줌 */
+/* 로고: 가로형 "CHROME HEARTS" 배너 이미지 (원본 403x107, 비율 ≒ 3.77:1)
+   사이드바 폭에 맞춰 가로 전체를 채우되 비율 유지.
+   크롭 없이 통짜 이미지 그대로 사용 — 여백 문제가 원본에 없어서 간단. */
+.logo {
+  display: block;
+  width: 100%;
+  max-width: 240px;          /* 살짝 더 크게 */
+  align-self: center;
+  line-height: 0;
+  transition: opacity .2s, filter .2s;
+}
+.logo:hover { opacity: 0.9; }
+.logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* 선명도·밝기 보정: contrast + brightness 를 살짝 올려 원본보다 또렷하게 */
+  filter: brightness(1.25) contrast(1.2);
+}
+
+/* 메인 네비게이션 (세로 스택) — 간격을 줄여 한 화면 안에 들어가도록 */
+.nav { display: flex; flex-direction: column; gap: 12px; flex: 1; }
+
+/* 메인 네비 항목: 가독성 우선 — 흰색·큰 글씨 (요청에 따라 확대)
+   기본 상태에서도 약한 글로우를 깔아 화면에서 글자가 또렷하게 살아나도록 */
+.nav > a,
+.nav > .nav-group > .nav-group__title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #ffffff;
+  padding: 8px 0;
+  display: block;
+  border-bottom: 1px solid transparent;
+  text-shadow: 0 0 4px rgba(255,255,255,0.35);
+  transition: color .2s, border-color .2s, text-shadow .2s;
+  cursor: pointer;
+}
+.nav > a:hover,
+.nav > .nav-group > .nav-group__title:hover {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255,255,255,0.6); /* 호버 시 실버 글로우 */
+}
+
+/* 쇼핑 그룹: 하위 카테고리 리스트가 항상 펼쳐진 상태 */
+.nav-group { display: flex; flex-direction: column; gap: 8px; }
+.nav-group__title {
+  font-weight: 700;
+  color: #fff !important;
+}
+.nav-group__sub {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 16px;
+  border-left: 1px solid rgba(255,255,255,0.25);
+  margin-left: 2px;
+}
+.nav-group__sub a {
+  font-family: var(--font-display);
+  font-size: 17px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ffffff;                        /* 서브메뉴도 흰색으로 밝기 업 */
+  text-shadow: 0 0 3px rgba(255,255,255,0.25);
+  transition: color .2s, text-shadow .2s;
+}
+.nav-group__sub a:hover {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255,255,255,0.5);
+}
+
+/* 하단 도구 영역 (언어 + 장바구니) */
+.sidebar-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  align-items: center;        /* 장바구니 이미지 중앙 정렬 */
+}
+
+/* 언어 토글: 국기 + 언어코드. 가로 배치로 컴팩트하게 */
+.lang-switch { display: flex; flex-direction: row; gap: 14px; font-size: 14px; letter-spacing: 0.1em; }
+.lang-switch button {
+  padding: 4px 2px;
+  color: #e8e6df;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-bottom: 1px solid transparent;
+  transition: color .2s, border-color .2s;
+}
+.lang-switch button .flag { font-size: 16px; line-height: 1; }
+.lang-switch button:hover { color: #fff; }
+.lang-switch button.active {
+  color: #fff;
+  border-bottom-color: #fff;
+  text-shadow: 0 0 8px rgba(255,255,255,0.5);
+}
+
+/* 장바구니 링크: 크로스 3개 엠블럼 이미지를 버튼처럼 사용.
+   - 내부의 cart-icon / cart-label 은 CSS 로 숨기고 이미지만 보여준다.
+   - 이미지 위에 작은 숫자 뱃지를 absolute 로 얹어 담긴 수량 표시. */
+.cart-link {
+  position: relative;
+  display: inline-block;
+  width: 120px;           /* 사이드바 폭에 여유 있게 들어가는 크기 */
+  align-self: center;
+  line-height: 0;
+  transition: opacity .2s, filter .2s;
+  background: url('../assets/cart-logo.png') center / contain no-repeat;
+  aspect-ratio: 409 / 292;   /* 원본 비율 유지 → 세로 스크롤 없이 깔끔 */
+  filter: brightness(1.1);
+}
+.cart-link:hover { opacity: 0.85; filter: brightness(1.3); }
+
+/* 기존 아이콘·라벨 텍스트는 숨김 (이미지로 대체) */
+.cart-link .cart-icon,
+.cart-link .cart-label { display: none; }
+.cart-badge {
+  position: absolute;
+  top: -6px; right: -10px;
+  background: var(--accent);
+  color: #000;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.cart-badge[data-count="0"] { display: none; } /* 0이면 숨김 */
+
+/* ---------- 버튼 ----------
+   브랜드 톤에 맞는 미니멀 아웃라인 버튼 */
+.btn {
+  display: inline-block;
+  padding: 14px 32px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+  transition: background .3s, color .3s;
+}
+.btn:hover { background: var(--fg); color: var(--bg); }
+.btn--accent { border-color: var(--accent); color: var(--accent); }
+.btn--accent:hover { background: var(--accent); color: var(--bg); }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+.btn:disabled:hover { background: none; color: var(--fg); }
+
+/* ---------- 섹션 공통 ----------
+   페이지 안쪽 콘텐츠는 max-width 로 중앙 정렬 */
+.container {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.section { padding: 100px 0; }
+.section-title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  letter-spacing: 0.25em;
+  text-align: center;
+  margin-bottom: 60px;
+  text-transform: uppercase;
+}
+
+/* ---------- 푸터 (럭셔리 브랜드 풀풋터) ----------
+   - 상단: 뉴스레터 가입 영역 (섹션 구분용 골드 라인)
+   - 중단: 4단(Customer Care / Company / Follow / Contact) + 로고
+   - 하단: 결제 수단 · 지역 선택 · 저작권 · 학습 고지
+   - 실제 럭셔리몰 감성: 풍부한 여백, 세리프 타이포, 얇은 구분선 */
+.site-footer {
+  background: #000;
+  color: var(--fg);
+  border-top: 1px solid var(--line);
+  padding: 0;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+}
+.site-footer a { color: var(--fg); transition: color .2s; }
+.site-footer a:hover { color: var(--accent); }
+
+/* ── 뉴스레터 영역 ── */
+.footer-newsletter {
+  border-bottom: 1px solid var(--line);
+  padding: 70px var(--gutter);
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(138,123,92,0.08), transparent 60%),
+    #000;
+}
+.footer-newsletter h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+.footer-newsletter p {
+  color: var(--fg-dim);
+  max-width: 480px;
+  margin: 0 auto 28px;
+  line-height: 1.8;
+}
+.footer-newsletter form {
+  display: inline-flex;
+  align-items: stretch;
+  max-width: 440px;
+  width: 100%;
+  border: 1px solid var(--fg);
+}
+.footer-newsletter input {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  padding: 14px 18px;
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  outline: none;
+}
+.footer-newsletter input::placeholder { color: var(--fg-dim); }
+.footer-newsletter button {
+  padding: 0 24px;
+  background: var(--fg);
+  color: #000;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-weight: 700;
+  border: 0;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.footer-newsletter button:hover { background: var(--accent); color: #000; }
+
+/* ── 메인 4단 영역 ── */
+.footer-main {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 40px;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 70px var(--gutter) 50px;
+}
+.footer-brand__logo {
+  font-family: var(--font-blackletter);
+  font-size: 28px;
+  line-height: 1;
+  color: #fff;
+  margin-bottom: 18px;
+  text-shadow: 0 0 6px rgba(255,255,255,0.3);
+}
+.footer-brand__tag {
+  color: var(--fg-dim);
+  line-height: 1.8;
+  max-width: 280px;
+  font-size: 13px;
+}
+.footer-col h4 {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+.footer-col ul a {
+  color: var(--fg);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
+.footer-col ul a:hover { color: var(--accent); }
+
+/* 소셜 아이콘 영역 */
+.footer-social {
+  display: flex;
+  gap: 14px;
+  margin-top: 4px;
+}
+.footer-social a {
+  width: 38px; height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-size: 15px;
+  color: var(--fg);
+  transition: border-color .2s, background .2s, color .2s;
+}
+.footer-social a:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #000;
+}
+
+/* ── 하단 바: 결제·지역·저작권 ── */
+.footer-bottom {
+  border-top: 1px solid var(--line);
+  padding: 26px var(--gutter);
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  color: var(--fg-dim);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+}
+.footer-bottom__links { display: flex; gap: 22px; }
+.footer-bottom__payments {
+  display: flex;
+  gap: 10px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+}
+/* 결제 수단 배지: 흰 배경 + 검정 글씨로 반전시켜 실제 결제 로고 느낌을 냄 */
+.footer-bottom__payments span {
+  padding: 5px 10px;
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border-radius: 2px;
+}
+
+/* 학습 고지 띠 (가장 아래) */
+.footer-disclaimer {
+  text-align: center;
+  padding: 18px var(--gutter);
+  border-top: 1px solid var(--line);
+  color: #555;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
+/* 모바일 */
+@media (max-width: 900px) {
+  .footer-main { grid-template-columns: 1fr 1fr; gap: 36px; padding: 50px var(--gutter); }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .footer-newsletter h3 { font-size: 18px; }
+}
+@media (max-width: 520px) {
+  .footer-main { grid-template-columns: 1fr; }
+}
+
+/* ---------- 진입 애니메이션 ----------
+   IntersectionObserver 로 .is-visible 클래스를 붙이면 자연스럽게 등장 */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .9s ease, transform .9s ease;
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* ---------- 모바일 반응형 ----------
+   900px 미만: 사이드바를 상단 바 형태로 접는다 (body 패딩 제거) */
+@media (max-width: 900px) {
+  body { padding-left: 0; padding-top: 0; }
+  .sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    gap: 24px;
+    padding: 20px var(--gutter);
+  }
+  .nav { gap: 14px; }
+  .section { padding: 60px 0; }
+  .section-title { font-size: 22px; margin-bottom: 36px; }
+  .logo { font-size: 16px; }
+}

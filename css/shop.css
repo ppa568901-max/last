@@ -1,0 +1,123 @@
+/* =========================================================
+   shop.css — 상품목록 페이지 전용
+   - 카테고리 필터바 + 정렬 드롭다운 + 상품 그리드
+   ========================================================= */
+
+/* 상단 Shop 배너: 기존 .section-title 과 동일한 상/하 여백을 유지해
+   이 배너를 넣어도 아래 상품 그리드 위치가 변하지 않도록 했다.
+   - .section-title: margin-top 40 + line-height + margin-bottom 60 ≒ 150px 내외
+   - 여기서는 height 80 + margin 40/60 = 180px 로 거의 동일한 세로 공간 차지
+   - background-size: cover 로 잘리더라도 가운데 기준으로 잘라 브랜드 엠블럼이 보이게 */
+/* 배너: 가로 4슬롯. 각 슬롯 안에서 이미지가 위→아래로 계속 떨어지는 루프.
+   - 컨테이너: 고정 높이 80px + 상/하 여백 유지해 레이아웃 밀림 없음
+   - overflow:hidden 으로 슬롯 밖으로 나간 이미지는 잘려 자연스럽게 사라지고 다시 위에서 등장
+   - animation-delay 를 슬롯마다 다르게 줘 서로 엇갈리는 '비 오는' 효과 */
+.shop-banner {
+  height: 80px;
+  margin-top: 40px;
+  margin-bottom: 60px;
+  background: #000;
+  display: flex;
+  overflow: hidden;
+}
+.shop-banner__slot {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.shop-banner__slot img {
+  height: 100%;
+  width: auto;
+  display: block;
+  animation-name: bannerRain;
+  animation-iteration-count: infinite;
+  /* timing-function 도 슬롯마다 달리 해서 속도감이 어긋나도록 */
+}
+/* 각 슬롯에 서로 다른 duration + 불규칙 delay + 다른 timing-function 을 주면
+   사이클이 절대 맞지 않아서 '파도' 처럼 보이지 않고 들쭉날쭉하게 떨어진다. */
+.shop-banner__slot:nth-child(1) img {
+  animation-duration: 6.3s;
+  animation-delay: -0.4s;
+  animation-timing-function: ease-in;
+}
+.shop-banner__slot:nth-child(2) img {
+  animation-duration: 8.7s;
+  animation-delay: -4.1s;
+  animation-timing-function: linear;
+}
+.shop-banner__slot:nth-child(3) img {
+  animation-duration: 5.4s;
+  animation-delay: -2.2s;
+  animation-timing-function: cubic-bezier(0.35, 0.1, 0.65, 1);
+}
+.shop-banner__slot:nth-child(4) img {
+  animation-duration: 7.8s;
+  animation-delay: -6.3s;
+  animation-timing-function: ease-in;
+}
+
+/* 위쪽 화면 밖(−130%)에서 시작해 아래쪽 화면 밖(+130%)으로 사라졌다가 다시 루프.
+   사이클 끝이 곧 다음 사이클 시작이라 끊김 없이 "계속 내려오는" 느낌. */
+@keyframes bannerRain {
+  0%   { transform: translateY(-130%); }
+  100% { transform: translateY(130%); }
+}
+
+.shop-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 0 20px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* 카테고리 필터: 가로 나열. 선택된 탭은 골드 밑줄 */
+.cat-filter { display: flex; gap: 28px; flex-wrap: wrap; }
+.cat-filter button {
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  padding: 6px 0;
+  border-bottom: 1px solid transparent;
+  transition: color .2s, border-color .2s;
+}
+.cat-filter button:hover { color: var(--fg); }
+.cat-filter button.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* 정렬 드롭다운 */
+.sort-wrap { display: flex; align-items: center; gap: 12px; color: var(--fg-dim); font-size: 13px; letter-spacing: 0.15em; }
+.sort-wrap select {
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--line);
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+}
+
+/* 상품 그리드: 데스크탑 4열 */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  padding-bottom: 100px;
+}
+
+@media (max-width: 900px) {
+  .shop-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .shop-grid { grid-template-columns: 1fr; }
+}

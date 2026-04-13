@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cart — Chrome Hearts Mockup</title>
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/product.css" />  <!-- qty-ctrl 스타일 재사용 -->
+  <link rel="stylesheet" href="css/cart.css" />
+</head>
+<body>
+
+<aside class="sidebar">
+  <a href="index.html" class="logo" aria-label="Chrome Hearts">
+    <img src="assets/logo.png" alt="Chrome Hearts" />
+  </a>
+  <nav class="nav">
+    <div class="nav-group">
+      <a href="shop.html" class="nav-group__title">SHOP</a>
+      <div class="nav-group__sub">
+        <a href="shop.html?cat=outer">Outerwear</a>
+        <a href="shop.html?cat=hoodie">Hoodie</a>
+        <a href="shop.html?cat=tshirt">T-Shirt</a>
+        <a href="shop.html?cat=denim">Denim</a>
+        <a href="shop.html?cat=accessory">Accessories</a>
+        <a href="shop.html?cat=all">All</a>
+      </div>
+    </div>
+    <a href="index.html#story">Story</a>
+    <a href="cart.html">Cart</a>
+  </nav>
+  <div class="sidebar-tools">
+    <div class="lang-switch">
+      <button data-lang="ko"><span class="flag">🇰🇷</span>KO</button>
+      <button data-lang="en"><span class="flag">🇺🇸</span>EN</button>
+      <button data-lang="ja"><span class="flag">🇯🇵</span>JA</button>
+    </div>
+    <a href="cart.html" class="cart-link" aria-label="cart">
+      <span class="cart-icon">🛒</span>
+      <span class="cart-label">Cart</span>
+      <span class="cart-badge" data-count="0">0</span>
+    </a>
+  </div>
+</aside>
+
+<main class="container">
+  <h1 class="section-title" style="margin-top:40px;" data-i18n="cart.title">Shopping Cart</h1>
+  <div class="cart-wrap" id="cartWrap"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-newsletter">
+    <h3>Join the Club</h3>
+    <p>Sign up for exclusive previews, private events, and the stories behind every piece — crafted since 1988.</p>
+    <form onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='✓ Subscribed';">
+      <input type="email" placeholder="Your email address" required />
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+  <div class="footer-main">
+    <div class="footer-col footer-brand">
+      <div class="footer-brand__logo">Chrome Hearts</div>
+      <p class="footer-brand__tag">Forever 24/7 — Handcrafted sterling silver, leather, and apparel, born in Hollywood, 1988.</p>
+      <div class="footer-social" aria-label="social">
+        <a href="#" title="Instagram">ⓘ</a><a href="#" title="YouTube">▶</a><a href="#" title="TikTok">♪</a><a href="#" title="X">✕</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Customer Care</h4><ul>
+      <li><a href="#">Contact Us</a></li><li><a href="#">Shipping &amp; Returns</a></li>
+      <li><a href="#">Order Tracking</a></li><li><a href="#">Size Guide</a></li><li><a href="#">Product Care</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Company</h4><ul>
+      <li><a href="index.html#story">Our Story</a></li><li><a href="#">Boutiques</a></li>
+      <li><a href="#">Press</a></li><li><a href="#">Careers</a></li><li><a href="#">Sustainability</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul>
+      <li><a href="#">Terms of Service</a></li><li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Cookie Settings</a></li><li><a href="#">Accessibility</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 CHROME HEARTS. ALL RIGHTS RESERVED.</div>
+    <div class="footer-bottom__payments"><span>VISA</span><span>MC</span><span>AMEX</span><span>PAYPAL</span><span>APPLE&nbsp;PAY</span></div>
+  </div>
+  <div class="footer-disclaimer" data-i18n="footer.disclaimer">This site is a Claude Code learning mockup and is not affiliated with the actual Chrome Hearts brand.</div>
+</footer>
+
+<script src="js/i18n.js"></script>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script>
+  /* ============================================================
+     cart 페이지
+     - CH_CART 상태를 읽어 리스트/합계를 그린다.
+     - 수량 변경 / 삭제 시 다시 그려 뱃지·합계 동기화
+     - "결제하기" 는 실제 기능 없음 → 모달로 데모 안내
+  ============================================================ */
+
+  // 가격 포맷 헬퍼 재사용
+  const fmt = window.CH_PRODUCTS.formatPrice;
+
+  function render() {
+    const wrap = document.getElementById('cartWrap');
+    const items = window.CH_CART.getItems();
+
+    if (items.length === 0) {
+      // 빈 장바구니 UI
+      wrap.innerHTML = `
+        <div class="cart-empty">
+          <p data-i18n="cart.empty">Your cart is empty.</p>
+          <a href="shop.html" class="btn" style="margin-top:24px;" data-i18n="hero.cta">View Collection</a>
+        </div>`;
+      if (window.CH_I18N) window.CH_I18N.applyLang(window.CH_I18N.lang);
+      return;
+    }
+
+    const subtotal = window.CH_CART.getTotal();
+
+    wrap.innerHTML = `
+      <div class="cart-list">
+        ${items.map((it) => `
+          <div class="cart-item" data-id="${it.id}" data-size="${it.size || ''}">
+            <div class="cart-item__img"><img src="${it.image}" alt="" /></div>
+            <div>
+              <div class="cart-item__name">${it.name}</div>
+              <div class="cart-item__meta">
+                <span data-i18n="product.size">Size</span>: ${it.size || 'FREE'}
+              </div>
+            </div>
+            <div class="qty-ctrl">
+              <button data-act="minus">−</button>
+              <span>${it.qty}</span>
+              <button data-act="plus">+</button>
+            </div>
+            <div class="cart-item__price">${fmt(it.price * it.qty)}</div>
+            <button class="cart-item__remove" data-act="remove" data-i18n="cart.remove">Remove</button>
+          </div>
+        `).join('')}
+      </div>
+
+      <aside class="cart-summary">
+        <h2 data-i18n="cart.title">Shopping Cart</h2>
+        <div class="cart-summary__row">
+          <span data-i18n="cart.subtotal">Subtotal</span>
+          <span>${fmt(subtotal)}</span>
+        </div>
+        <div class="cart-summary__row">
+          <span data-i18n="cart.shipping">Shipping</span>
+          <span data-i18n="cart.shipping_free">Free</span>
+        </div>
+        <div class="cart-summary__row total">
+          <span data-i18n="cart.total">Total</span>
+          <span>${fmt(subtotal)}</span>
+        </div>
+        <button class="btn btn--accent" id="checkoutBtn" data-i18n="cart.checkout">Checkout</button>
+      </aside>
+    `;
+
+    bindEvents();
+    if (window.CH_I18N) window.CH_I18N.applyLang(window.CH_I18N.lang);
+  }
+
+  function bindEvents() {
+    // 수량 증감 + 삭제
+    document.querySelectorAll('.cart-item').forEach((row) => {
+      const id = Number(row.dataset.id);
+      const size = row.dataset.size || '';
+      row.querySelectorAll('button').forEach((b) => {
+        b.addEventListener('click', () => {
+          const act = b.dataset.act;
+          const current = window.CH_CART.getItems().find((x) => x.id === id && (x.size || '') === size);
+          if (!current) return;
+          if (act === 'plus')   window.CH_CART.updateQty(id, size, current.qty + 1);
+          if (act === 'minus')  window.CH_CART.updateQty(id, size, current.qty - 1);
+          if (act === 'remove') window.CH_CART.remove(id, size);
+        });
+      });
+    });
+
+    // 결제 → 데모 모달
+    const btn = document.getElementById('checkoutBtn');
+    if (btn) btn.addEventListener('click', openDemoModal);
+  }
+
+  function openDemoModal() {
+    const dict = (window.CH_I18N && window.CH_I18N.t) ? window.CH_I18N.t : () => '';
+    const msg = dict('cart.demo_notice') || 'This is a demo site.';
+    const close = dict('nav.home') || 'Close';
+    const box = document.createElement('div');
+    box.className = 'modal-backdrop';
+    box.innerHTML = `
+      <div class="modal-box">
+        <h3>DEMO</h3>
+        <p>${msg}</p>
+        <button class="btn">OK</button>
+      </div>`;
+    box.addEventListener('click', (e) => {
+      if (e.target === box || e.target.tagName === 'BUTTON') box.remove();
+    });
+    document.body.appendChild(box);
+  }
+
+  // 장바구니 상태 변화 이벤트에 반응 (cart.js 가 발행)
+  document.addEventListener('cart:changed', render);
+  document.addEventListener('i18n:changed', render);
+  document.addEventListener('DOMContentLoaded', render);
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "shop": "ショップ",
+    "story": "ブランド",
+    "cart": "カート"
+  },
+  "hero": {
+    "title": "CHROME HEARTS",
+    "subtitle": "Forever 24/7",
+    "cta": "コレクションを見る"
+  },
+  "home": {
+    "new_arrivals": "新着アイテム",
+    "categories": "カテゴリー",
+    "story_title": "永遠を刻む",
+    "story_body": "1988年、ハリウッドで生まれた職人の物語。一針の縫製と一握の銀に永遠を込めて。"
+  },
+  "category": {
+    "all": "すべて",
+    "outer": "アウター",
+    "hoodie": "フーディ",
+    "tshirt": "Tシャツ",
+    "denim": "デニム",
+    "accessory": "アクセサリー"
+  },
+  "shop": {
+    "title": "ショップ",
+    "sort": "並び替え",
+    "sort_new": "新着順",
+    "sort_price_asc": "価格が安い順",
+    "sort_price_desc": "価格が高い順"
+  },
+  "product": {
+    "size": "サイズ",
+    "qty": "数量",
+    "add_to_cart": "カートに入れる",
+    "description_title": "商品詳細",
+    "material": "素材"
+  },
+  "cart": {
+    "title": "ショッピングカート",
+    "empty": "カートは空です。",
+    "subtotal": "小計",
+    "shipping": "配送料",
+    "shipping_free": "無料",
+    "total": "合計",
+    "checkout": "ご購入手続き",
+    "remove": "削除",
+    "demo_notice": "本サイトは学習用のデモです。実際の決済は行われません。"
+  },
+  "footer": {
+    "disclaimer": "本サイトは Claude Code 学習用モックアップであり、実際の Chrome Hearts ブランドとは関係ありません。",
+    "copyright": "© 2026 Chrome Hearts Mockup. All rights reserved."
+  }
+}

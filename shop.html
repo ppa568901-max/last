@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shop — Chrome Hearts Mockup</title>
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/home.css" />   <!-- 상품 카드 스타일 재사용 -->
+  <link rel="stylesheet" href="css/shop.css" />
+</head>
+<body>
+
+<!-- 공통 헤더 -->
+<aside class="sidebar">
+  <a href="index.html" class="logo" aria-label="Chrome Hearts">
+    <img src="assets/logo.png" alt="Chrome Hearts" />
+  </a>
+  <nav class="nav">
+    <div class="nav-group">
+      <a href="shop.html" class="nav-group__title">SHOP</a>
+      <div class="nav-group__sub">
+        <a href="shop.html?cat=outer">Outerwear</a>
+        <a href="shop.html?cat=hoodie">Hoodie</a>
+        <a href="shop.html?cat=tshirt">T-Shirt</a>
+        <a href="shop.html?cat=denim">Denim</a>
+        <a href="shop.html?cat=accessory">Accessories</a>
+        <a href="shop.html?cat=all">All</a>
+      </div>
+    </div>
+    <a href="index.html#story">Story</a>
+    <a href="cart.html">Cart</a>
+  </nav>
+  <div class="sidebar-tools">
+    <div class="lang-switch">
+      <button data-lang="ko"><span class="flag">🇰🇷</span>KO</button>
+      <button data-lang="en"><span class="flag">🇺🇸</span>EN</button>
+      <button data-lang="ja"><span class="flag">🇯🇵</span>JA</button>
+    </div>
+    <a href="cart.html" class="cart-link" aria-label="cart">
+      <span class="cart-icon">🛒</span>
+      <span class="cart-label">Cart</span>
+      <span class="cart-badge" data-count="0">0</span>
+    </a>
+  </div>
+</aside>
+
+<main class="container">
+  <!-- 상단 타이틀 -->
+  <!-- 상단 배너: 같은 이미지를 가로로 4슬롯 배치하고, 각 슬롯 안에서
+       이미지가 위→아래로 끝없이 흐르는 '비 내리듯' 연속 애니메이션.
+       각 슬롯마다 animation-delay 를 다르게 줘서 서로 엇갈리게 떨어짐. -->
+  <div class="shop-banner" aria-label="Shop">
+    <div class="shop-banner__slot"><img src="assets/shop-banner.png" alt="" /></div>
+    <div class="shop-banner__slot"><img src="assets/shop-banner.png" alt="" /></div>
+    <div class="shop-banner__slot"><img src="assets/shop-banner.png" alt="" /></div>
+    <div class="shop-banner__slot"><img src="assets/shop-banner.png" alt="" /></div>
+  </div>
+
+  <!-- 필터 + 정렬 바 -->
+  <div class="shop-head">
+    <!-- 카테고리 필터: 주력 의류(아우터→후디→티셔츠→데님) 먼저, 그다음 악세사리, 마지막에 전체 -->
+    <div class="cat-filter" id="catFilter">
+      <button data-cat="outer" class="active" data-i18n="category.outer">Outerwear</button>
+      <button data-cat="hoodie" data-i18n="category.hoodie">Hoodie</button>
+      <button data-cat="tshirt" data-i18n="category.tshirt">T-Shirt</button>
+      <button data-cat="denim" data-i18n="category.denim">Denim</button>
+      <button data-cat="accessory" data-i18n="category.accessory">Accessories</button>
+      <button data-cat="all" data-i18n="category.all">All</button>
+    </div>
+
+    <label class="sort-wrap">
+      <span data-i18n="shop.sort">Sort</span>
+      <select id="sortSel">
+        <option value="new" data-i18n="shop.sort_new">Newest</option>
+        <option value="asc" data-i18n="shop.sort_price_asc">Price: Low to High</option>
+        <option value="desc" data-i18n="shop.sort_price_desc">Price: High to Low</option>
+      </select>
+    </label>
+  </div>
+
+  <!-- 상품 그리드 -->
+  <div class="shop-grid reveal" id="shopGrid"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-newsletter">
+    <h3>Join the Club</h3>
+    <p>Sign up for exclusive previews, private events, and the stories behind every piece — crafted since 1988.</p>
+    <form onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='✓ Subscribed';">
+      <input type="email" placeholder="Your email address" required />
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+  <div class="footer-main">
+    <div class="footer-col footer-brand">
+      <div class="footer-brand__logo">Chrome Hearts</div>
+      <p class="footer-brand__tag">Forever 24/7 — Handcrafted sterling silver, leather, and apparel, born in Hollywood, 1988.</p>
+      <div class="footer-social" aria-label="social">
+        <a href="#" title="Instagram">ⓘ</a><a href="#" title="YouTube">▶</a><a href="#" title="TikTok">♪</a><a href="#" title="X">✕</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Customer Care</h4><ul>
+      <li><a href="#">Contact Us</a></li><li><a href="#">Shipping &amp; Returns</a></li>
+      <li><a href="#">Order Tracking</a></li><li><a href="#">Size Guide</a></li><li><a href="#">Product Care</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Company</h4><ul>
+      <li><a href="index.html#story">Our Story</a></li><li><a href="#">Boutiques</a></li>
+      <li><a href="#">Press</a></li><li><a href="#">Careers</a></li><li><a href="#">Sustainability</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul>
+      <li><a href="#">Terms of Service</a></li><li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Cookie Settings</a></li><li><a href="#">Accessibility</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 CHROME HEARTS. ALL RIGHTS RESERVED.</div>
+    <div class="footer-bottom__payments"><span>VISA</span><span>MC</span><span>AMEX</span><span>PAYPAL</span><span>APPLE&nbsp;PAY</span></div>
+  </div>
+  <div class="footer-disclaimer" data-i18n="footer.disclaimer">This site is a Claude Code learning mockup and is not affiliated with the actual Chrome Hearts brand.</div>
+</footer>
+
+<script src="js/i18n.js"></script>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script>
+  /* ============================================================
+     shop 페이지 로직
+     - 기본 카테고리는 "outer" (의류가 주력이므로 아우터부터 노출)
+     - URL ?cat=hoodie 처럼 들어오면 해당 카테고리 선택 상태로 시작
+     - 필터/정렬 변경 시 즉시 다시 그리기
+     - 언어가 바뀌면 상품 이름도 다시 교체해야 하므로 i18n:changed 에도 반응
+  ============================================================ */
+  const state = {
+    cat: new URLSearchParams(location.search).get('cat') || 'outer',
+    sort: 'new'
+  };
+
+  function render() {
+    const grid = document.getElementById('shopGrid');
+    let items = window.CH_PRODUCTS.PRODUCTS.slice();
+
+    // 1) 카테고리 필터 (all 이면 전체)
+    if (state.cat !== 'all') items = items.filter((p) => p.category === state.cat);
+
+    // 2) 정렬: 신상품순은 isNew 가 앞으로, 나머지는 id 내림차순 기준
+    if (state.sort === 'asc') items.sort((a,b) => a.price - b.price);
+    else if (state.sort === 'desc') items.sort((a,b) => b.price - a.price);
+    else items.sort((a,b) => (b.isNew === true) - (a.isNew === true) || b.id - a.id);
+
+    // 3) 버튼 active 표시 갱신
+    document.querySelectorAll('#catFilter button').forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.cat === state.cat);
+    });
+
+    // 4) DOM 렌더
+    grid.innerHTML = items.map((p) => `
+      <a class="prod-card" href="product.html?id=${p.id}">
+        <div class="prod-card__img"><img src="${p.images[0]}" alt="" loading="lazy"/></div>
+        <div class="prod-card__body">
+          <div class="prod-card__name">${window.CH_PRODUCTS.productName(p)}</div>
+          <div class="prod-card__price">${window.CH_PRODUCTS.formatPrice(p.price)}</div>
+        </div>
+      </a>
+    `).join('');
+
+    if (items.length === 0) {
+      grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--fg-dim);padding:60px 0;">No items.</p>';
+    }
+  }
+
+  // 필터 버튼 클릭
+  document.getElementById('catFilter').addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-cat]');
+    if (!btn) return;
+    state.cat = btn.dataset.cat;
+    render();
+  });
+
+  // 정렬 변경
+  document.getElementById('sortSel').addEventListener('change', (e) => {
+    state.sort = e.target.value;
+    render();
+  });
+
+  document.addEventListener('DOMContentLoaded', render);
+  document.addEventListener('i18n:changed', render); // 언어 변경 시 이름 다시 그림
+</script>
+</body>
+</html>

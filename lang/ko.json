@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "홈",
+    "shop": "쇼핑",
+    "story": "브랜드",
+    "cart": "장바구니"
+  },
+  "hero": {
+    "title": "CHROME HEARTS",
+    "subtitle": "Forever 24/7",
+    "cta": "컬렉션 보기"
+  },
+  "home": {
+    "new_arrivals": "신상품",
+    "categories": "카테고리",
+    "story_title": "영원을 새기다",
+    "story_body": "1988년 할리우드에서 시작된 장인의 서사. 한 땀의 바느질과 한 줌의 은에 영원을 담습니다."
+  },
+  "category": {
+    "all": "전체",
+    "outer": "아우터",
+    "hoodie": "후디",
+    "tshirt": "티셔츠",
+    "denim": "데님",
+    "accessory": "악세사리"
+  },
+  "shop": {
+    "title": "쇼핑",
+    "sort": "정렬",
+    "sort_new": "신상품순",
+    "sort_price_asc": "낮은 가격순",
+    "sort_price_desc": "높은 가격순"
+  },
+  "product": {
+    "size": "사이즈",
+    "qty": "수량",
+    "add_to_cart": "장바구니에 담기",
+    "description_title": "상세 설명",
+    "material": "소재"
+  },
+  "cart": {
+    "title": "장바구니",
+    "empty": "장바구니가 비어 있습니다.",
+    "subtotal": "소계",
+    "shipping": "배송비",
+    "shipping_free": "무료",
+    "total": "합계",
+    "checkout": "결제하기",
+    "remove": "삭제",
+    "demo_notice": "본 사이트는 학습용 데모입니다. 실제 결제는 진행되지 않습니다."
+  },
+  "footer": {
+    "disclaimer": "본 사이트는 Claude Code 학습용 목업이며, 실제 Chrome Hearts 브랜드와 관련이 없습니다.",
+    "copyright": "© 2026 Chrome Hearts Mockup. All rights reserved."
+  }
+}

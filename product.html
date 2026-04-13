@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Product — Chrome Hearts Mockup</title>
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/product.css" />
+</head>
+<body>
+
+<aside class="sidebar">
+  <a href="index.html" class="logo" aria-label="Chrome Hearts">
+    <img src="assets/logo.png" alt="Chrome Hearts" />
+  </a>
+  <nav class="nav">
+    <div class="nav-group">
+      <a href="shop.html" class="nav-group__title">SHOP</a>
+      <div class="nav-group__sub">
+        <a href="shop.html?cat=outer">Outerwear</a>
+        <a href="shop.html?cat=hoodie">Hoodie</a>
+        <a href="shop.html?cat=tshirt">T-Shirt</a>
+        <a href="shop.html?cat=denim">Denim</a>
+        <a href="shop.html?cat=accessory">Accessories</a>
+        <a href="shop.html?cat=all">All</a>
+      </div>
+    </div>
+    <a href="index.html#story">Story</a>
+    <a href="cart.html">Cart</a>
+  </nav>
+  <div class="sidebar-tools">
+    <div class="lang-switch">
+      <button data-lang="ko"><span class="flag">🇰🇷</span>KO</button>
+      <button data-lang="en"><span class="flag">🇺🇸</span>EN</button>
+      <button data-lang="ja"><span class="flag">🇯🇵</span>JA</button>
+    </div>
+    <a href="cart.html" class="cart-link" aria-label="cart">
+      <span class="cart-icon">🛒</span>
+      <span class="cart-label">Cart</span>
+      <span class="cart-badge" data-count="0">0</span>
+    </a>
+  </div>
+</aside>
+
+<main class="container">
+  <div class="prod-wrap" id="prodWrap">
+    <!-- JS 로 렌더링됨. 잘못된 id 로 접근하면 안내 문구 표시 -->
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-newsletter">
+    <h3>Join the Club</h3>
+    <p>Sign up for exclusive previews, private events, and the stories behind every piece — crafted since 1988.</p>
+    <form onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='✓ Subscribed';">
+      <input type="email" placeholder="Your email address" required />
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+  <div class="footer-main">
+    <div class="footer-col footer-brand">
+      <div class="footer-brand__logo">Chrome Hearts</div>
+      <p class="footer-brand__tag">Forever 24/7 — Handcrafted sterling silver, leather, and apparel, born in Hollywood, 1988.</p>
+      <div class="footer-social" aria-label="social">
+        <a href="#" title="Instagram">ⓘ</a><a href="#" title="YouTube">▶</a><a href="#" title="TikTok">♪</a><a href="#" title="X">✕</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Customer Care</h4><ul>
+      <li><a href="#">Contact Us</a></li><li><a href="#">Shipping &amp; Returns</a></li>
+      <li><a href="#">Order Tracking</a></li><li><a href="#">Size Guide</a></li><li><a href="#">Product Care</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Company</h4><ul>
+      <li><a href="index.html#story">Our Story</a></li><li><a href="#">Boutiques</a></li>
+      <li><a href="#">Press</a></li><li><a href="#">Careers</a></li><li><a href="#">Sustainability</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul>
+      <li><a href="#">Terms of Service</a></li><li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Cookie Settings</a></li><li><a href="#">Accessibility</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 CHROME HEARTS. ALL RIGHTS RESERVED.</div>
+    <div class="footer-bottom__payments"><span>VISA</span><span>MC</span><span>AMEX</span><span>PAYPAL</span><span>APPLE&nbsp;PAY</span></div>
+  </div>
+  <div class="footer-disclaimer" data-i18n="footer.disclaimer">This site is a Claude Code learning mockup and is not affiliated with the actual Chrome Hearts brand.</div>
+</footer>
+
+<script src="js/i18n.js"></script>
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script>
+  /* ============================================================
+     product 페이지: URL ?id= 로 상품을 찾고 상세를 그린다.
+     - 이미지 갤러리(메인 + 썸네일 클릭 시 교체)
+     - 사이즈 선택 (미선택이면 담기 차단)
+     - 수량 증감
+     - "장바구니 담기" 클릭 → CH_CART.add 호출 + 작은 토스트
+  ============================================================ */
+  const id = new URLSearchParams(location.search).get('id');
+  const product = window.CH_PRODUCTS.getProduct(id);
+
+  const ui = {
+    size: null,        // 선택된 사이즈 (없으면 null)
+    qty: 1,            // 수량
+    mainIdx: 0         // 현재 표시 중인 이미지 인덱스
+  };
+
+  function render() {
+    const wrap = document.getElementById('prodWrap');
+    if (!product) {
+      wrap.innerHTML = '<p style="grid-column:1/-1;text-align:center;padding:80px 0;color:var(--fg-dim);">Product not found.</p>';
+      return;
+    }
+
+    const name = window.CH_PRODUCTS.productName(product);
+    const desc = window.CH_PRODUCTS.productDesc(product);
+    const price = window.CH_PRODUCTS.formatPrice(product.price);
+
+    wrap.innerHTML = `
+      <div class="prod-gallery">
+        <div class="prod-gallery__main">
+          <img src="${product.images[0]}" alt="${name}" />
+        </div>
+      </div>
+
+      <div class="prod-info">
+        <h1 class="prod-info__name">${name}</h1>
+        <div class="prod-info__price">${price}</div>
+
+        <div class="prod-info__section">
+          <span class="prod-info__label" data-i18n="product.size">Size</span>
+          <div class="size-list">
+            ${product.sizes.map((s) => `
+              <button data-size="${s}" class="${ui.size === s ? 'active' : ''}">${s}</button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="prod-info__section">
+          <span class="prod-info__label" data-i18n="product.qty">Quantity</span>
+          <div class="qty-ctrl">
+            <button id="qtyMinus">−</button>
+            <span id="qtyVal">${ui.qty}</span>
+            <button id="qtyPlus">+</button>
+          </div>
+        </div>
+
+        <button class="btn btn--accent" id="addBtn" data-i18n="product.add_to_cart" style="margin-top:10px;">
+          Add to Cart
+        </button>
+
+        <div class="prod-info__desc">
+          <h4 data-i18n="product.description_title">Description</h4>
+          <p>${desc}</p>
+        </div>
+      </div>
+    `;
+
+    // i18n 이 이미 적용된 사전으로 동적 삽입된 요소도 갱신
+    if (window.CH_I18N) window.CH_I18N.applyLang(window.CH_I18N.lang);
+    bindEvents();
+  }
+
+  function bindEvents() {
+    // 썸네일 클릭 → 메인 이미지 교체
+    document.querySelectorAll('.prod-gallery__thumbs img').forEach((img) => {
+      img.addEventListener('click', () => {
+        ui.mainIdx = Number(img.dataset.idx);
+        render();
+      });
+    });
+
+    // 사이즈 선택
+    document.querySelectorAll('.size-list button').forEach((b) => {
+      b.addEventListener('click', () => {
+        ui.size = b.dataset.size;
+        document.querySelectorAll('.size-list button').forEach((x) => x.classList.toggle('active', x === b));
+      });
+    });
+
+    // 수량 +/-
+    const qtyVal = document.getElementById('qtyVal');
+    document.getElementById('qtyMinus').addEventListener('click', () => {
+      ui.qty = Math.max(1, ui.qty - 1);
+      qtyVal.textContent = ui.qty;
+    });
+    document.getElementById('qtyPlus').addEventListener('click', () => {
+      ui.qty = Math.min(99, ui.qty + 1);
+      qtyVal.textContent = ui.qty;
+    });
+
+    // 장바구니 담기
+    document.getElementById('addBtn').addEventListener('click', () => {
+      // 악세사리(FREE) 같이 사이즈 하나뿐이면 자동 선택
+      if (!ui.size) {
+        if (product.sizes.length === 1) ui.size = product.sizes[0];
+        else { alert('Please select a size.'); return; }
+      }
+      window.CH_CART.add({
+        id: product.id,
+        name: window.CH_PRODUCTS.productName(product),
+        price: product.price,
+        image: product.images[0],
+        size: ui.size,
+        qty: ui.qty
+      });
+      // 간단한 토스트
+      toast('✓');
+    });
+  }
+
+  // 화면 중앙에 살짝 떴다 사라지는 토스트
+  function toast(msg) {
+    const el = document.createElement('div');
+    el.textContent = msg;
+    el.style.cssText = `
+      position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+      background:rgba(138,123,92,0.95); color:#000;
+      padding:20px 40px; font-family:var(--font-display);
+      letter-spacing:0.3em; font-size:22px; z-index:999;
+      transition: opacity .6s; opacity:1;
+    `;
+    document.body.appendChild(el);
+    setTimeout(() => { el.style.opacity = 0; }, 700);
+    setTimeout(() => el.remove(), 1400);
+  }
+
+  document.addEventListener('DOMContentLoaded', render);
+  document.addEventListener('i18n:changed', render);
+</script>
+</body>
+</html>

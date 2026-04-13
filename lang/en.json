@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "Home",
+    "shop": "Shop",
+    "story": "Story",
+    "cart": "Cart"
+  },
+  "hero": {
+    "title": "CHROME HEARTS",
+    "subtitle": "Forever 24/7",
+    "cta": "View Collection"
+  },
+  "home": {
+    "new_arrivals": "New Arrivals",
+    "categories": "Categories",
+    "story_title": "Engraving Forever",
+    "story_body": "A craftsman's narrative born in Hollywood, 1988. Every stitch and ounce of silver is a testament to the eternal."
+  },
+  "category": {
+    "all": "All",
+    "outer": "Outerwear",
+    "hoodie": "Hoodie",
+    "tshirt": "T-Shirt",
+    "denim": "Denim",
+    "accessory": "Accessories"
+  },
+  "shop": {
+    "title": "Shop",
+    "sort": "Sort",
+    "sort_new": "Newest",
+    "sort_price_asc": "Price: Low to High",
+    "sort_price_desc": "Price: High to Low"
+  },
+  "product": {
+    "size": "Size",
+    "qty": "Quantity",
+    "add_to_cart": "Add to Cart",
+    "description_title": "Description",
+    "material": "Material"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty.",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "shipping_free": "Free",
+    "total": "Total",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "demo_notice": "This is a demo site for learning purposes. No real transactions are processed."
+  },
+  "footer": {
+    "disclaimer": "This site is a Claude Code learning mockup and is not affiliated with the actual Chrome Hearts brand.",
+    "copyright": "© 2026 Chrome Hearts Mockup. All rights reserved."
+  }
+}
